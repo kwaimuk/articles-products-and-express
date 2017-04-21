@@ -1,0 +1,16 @@
+<h1>New Product</h1>
+<form name="newProduct" id="newProduct" action="/products" method="POST">
+  <label for="name">Name</label>
+  <input type="text" id="name" name= "name" value= "">
+
+  <label for="price">Price</label>
+  <input type="text" id="price" name= "price">
+
+  <label for="inventory">Inventory</label>
+  <input type="text" id="inventory" name="inventory">
+
+  <input id= "newProduct" type="submit" value="Add Product">
+</form>
+{{#unless success.post}}
+<p>Please fill out the missing fields</p>
+{{/unless}}

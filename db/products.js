@@ -1,28 +1,42 @@
-/* jshint esversion: 6 */
-let productList = [{ name: 'yes', price: 19.99, inventory: 2, id: 1 }];
+let productList = [];
 
-let productID = 1;
+let newProductId = 1;
 
 function addNewProduct(product) {
-  product.id = productID;
-  product.price = parseFloat(product.price);
-  product.inventory = parseFloat(product.inventory);
-  productID++;
+  product.id = newProductId;
+  newProductId++;
   productList.push(product);
-console.log("post",productList);
 }
 
-function findProductById(id){
-  id= parseFloat(id);
+function findProductById(requestId){
   for(let i = 0; i < productList.length; i++){
-    console.log("0",productList[0].id);
-    if(productList[i].id === id ){
-      console.log("true", id);
-       return id;
+    if(productList[i].id === requestId){
+       return productList[i];
     }
   }
 }
 
+function deleteProduct(requestId){
+  for(let i = 0; i < productList.length; i++){
+    if(productList[i].id === requestId){
+      productList.splice(i, 1);
+    }
+  }
+}
+
+function editProduct(productToEdit, req) {
+  if(req.body.name){
+      productToEdit.name = req.body.name;
+    }
+    // check if has price
+    if(req.body.price){
+      productToEdit.price = req.body.price;
+    }
+    // check if has inventory
+    if(req.body.inventory){
+      productToEdit.inventory = req.body.inventory;
+    }
+}
 
 module.exports = {
   data: {
@@ -33,9 +47,9 @@ module.exports = {
     }
   },
   productList,
-  productID,
+  newProductId,
   addNewProduct,
   findProductById,
-  // deleteProduct,
-  // editProduct,
+  deleteProduct,
+  editProduct,
 };
