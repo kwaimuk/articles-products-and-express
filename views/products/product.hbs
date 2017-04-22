@@ -1,3 +1,6 @@
+<div><FORM METHOD="LINK" ACTION=../products/new>
+<INPUT TYPE="submit" VALUE="New Product">
+</FORM></div>
 {{#if id}}
 <div class="product">
   <h1>Name: {{name}}</h1>
@@ -5,6 +8,9 @@
   <h2>Price: ${{price}}</h2>
   <h2>Inventory: {{inventory}}</h2>
 </div>
+<form action="/products/{{id}}?_method=DELETE" method="POST" enctype="application/x-www-form-urlencoded">
+   <input id= "newProduct" type="submit" value="Remove Product">
+</form>
 {{else}}
   <h1>Product Not Found</h1>
 {{/if}}

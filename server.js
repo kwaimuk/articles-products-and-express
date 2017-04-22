@@ -17,9 +17,9 @@ app.set('view engine','hbs');
 
 app.use(express.static('./'));
 //get
-// app.get('/', (req,res) => {
-//   res.render('home',homeData);
-// });
+app.get('/', (req,res) => {
+  res.render('home');
+});
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(methodOverride('X-HTTP-Method-Override'));

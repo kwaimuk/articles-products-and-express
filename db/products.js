@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 let productList = [];
 
 let newProductId = 1;
@@ -19,6 +20,7 @@ function findProductById(requestId){
 function deleteProduct(requestId){
   for(let i = 0; i < productList.length; i++){
     if(productList[i].id === requestId){
+      console.log("delep");
       productList.splice(i, 1);
     }
   }
