@@ -34,22 +34,24 @@ router.route('/:id')
   .put(function (req, res) {
   let requestId = parseFloat(req.params.id);
   let productToEdit = productsDB.findProductById(requestId);
-
+console.log("edit");
   if(productToEdit !== undefined){
     productsDB.editProduct(productToEdit, req);
-    res.redirect(303, `/products/${productToEdit.id}`);
+    //I could render the edit page, but url will be ?_method=PUT
+    //    res.render('./products/edit', productToEdit);
+    res.redirect(303, `/products/${productToEdit.id}/edit`);
   }else {
     res.redirect(303, '/products/new');
   }
 })
 
   .delete(function (req, res) {
+    console.log("has attempted to delete");
   let requestId = parseFloat(req.params.id);
   let productToEdit = productsDB.findProductById(requestId);
   if(productToEdit){
     productsDB.deleteProduct(requestId);
     productsDB.data.success.delete = true;
-    console.log("has attempted to delete");
     res.redirect(303,'/products');
   }else{
     res.redirect(303,'/products/error');
@@ -74,6 +76,7 @@ router.route('/:id')
 
 
 router.get('/:id/edit', (req, res) => {
+  console.log("edit2");
   let requestId = parseFloat(req.params.id);
   let productRequested = productsDB.findProductById(requestId);
   if(productRequested){

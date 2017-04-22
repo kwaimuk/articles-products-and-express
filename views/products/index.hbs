@@ -1,8 +1,5 @@
 <h1>All Products</h1>
 <div><a href="../products/new">new</a></div>
-{{#if success.delete}}
-<p>Item deleted.</p>
-{{/if}}
 
 {{#each products}} {{!-- iterates over the array of books --}}
   <div class="product">
@@ -12,4 +9,7 @@
     <h2>Inventory: {{inventory}}</h2>
   </div>
 {{/each}}
+{{#if success.delete}}
+<p>Item was deleted.</p>
+{{/if}}
   <div><a href="../products/new">new</a></div>
