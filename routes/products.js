@@ -37,7 +37,7 @@ router.route('/:id')
 console.log("edit");
   if(productToEdit !== undefined){
     productsDB.editProduct(productToEdit, req);
-    //I could render the edit page, but url will be ?_method=PUT
+    //I could render the edit page, but url will be ?_method=PUT-
     //    res.render('./products/edit', productToEdit);
     res.redirect(303, `/products/${productToEdit.id}/edit`);
   }else {

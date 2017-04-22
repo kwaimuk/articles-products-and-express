@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
 const methodOverride = require('method-override');
 const productsRouter = require('./routes/products');
+const articlesRouter = require('./routes/articles');
 const PORT = 8888;
 const app = express();
 
@@ -24,6 +25,7 @@ app.get('/', (req,res) => {
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(methodOverride('_method'));
 app.use('/products',productsRouter);
+app.use('/articles',articlesRouter);
 
 app.get("*",(req,res) => {
   res.send('404');
