@@ -74,11 +74,10 @@ console.log("edit");
 
 router.get('/:id/edit', (req, res) => {
   console.log("edit2");
-  let requestId = parseFloat(req.params.id);
-  let productRequested = articlesDB.findArticleByTitle(requestId);
-  if(productRequested){
-    let i = productList.indexOf(productRequested);
-    res.render('./articles/edit', articlesDB.data.articles[i]);
+  let requestArticle = encodeURI(req.params.title);
+  let articleRequested = articlesDB.findArticleByTitle(requestArticle);
+  if(articleRequested){
+    res.render('./articles/edit',articleRequested);
   }else{
     res.redirect(303, '/articles/error');
   }
