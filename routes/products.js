@@ -62,9 +62,11 @@ console.log("edit");
   let requestId = parseInt(req.params.id);
   console.log("ok");
   let productRequested = productsDB.findProductById(requestId);
+  console.log("productRequested",productRequested);
   if(productRequested){
-    let i = productList.indexOf(productRequested);
-    res.render('./products/product', productsDB.data.products[i]);
+    // let i = productList.indexOf(productRequested);
+    // console.log("productsDB.data.products[i]", productsDB.data.products[i]);
+    res.render('./products/product', productRequested);
   }else{
     res.redirect(303, '/products/error');
   }

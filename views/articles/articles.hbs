@@ -1,16 +1,16 @@
 <div><FORM METHOD="LINK" ACTION=../articles/new>
 <INPUT TYPE="submit" VALUE="New Product">
 </FORM></div>
-{{#if id}}
+{{#if title}}
 <div class="articles">
   <h1>Title: {{title}}</h1>
   <h2>Body: {{body}}</h2>
-  <h2>Inventory: {{inventory}}</h2>
+  <h2>Author: {{author}}</h2>
 </div>
-<form action="/products/{{id}}?_method=PUT" method="POST" >
+<form action="/articles/{{title}}?_method=PUT" method="POST" >
    <input type="submit" value="Edit Product">
 </form>
-<form action="/products/{{id}}?_method=DELETE" method="POST" >
+<form action="/articles/{{title}}?_method=DELETE" method="POST" >
    <input type="submit" value="Remove Product">
 </form>
 {{else}}

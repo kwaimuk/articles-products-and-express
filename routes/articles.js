@@ -30,22 +30,22 @@ router.route('/new')
 router.route('/:title')
   .put(function (req, res) {
   let requestArticle = req.params.title;
-  let articleToEdit = articlesDB.findArticleById(requestId);
+  let articleToEdit = articlesDB.findArticleByTitle(requestArticle);
 console.log("edit");
   if(articleToEdit !== undefined){
     articlesDB.editProduct(articleToEdit, req);
     //I could render the edit page, but url will be ?_method=PUT-
     //    res.render('./articles/edit', articleToEdit);
-    res.redirect(303, `/articles/${articleToEdit.title}/edit`);
+    res.redirect(303, `/articles/${articleToEdit.title}/`);
   }else {
-    res.redirect(303, '/articles/new');
+    res.redirect(303, '/articles/${articleToEdit.title}/new');
   }
 })
 
   .delete(function (req, res) {
     console.log("has attempted to delete");
     let articleUrl = encodeURI(req.params.title);
-  let articleToEdit = articlesDB.findArticleById(articleUrl);
+  let articleToEdit = articlesDB.findArticleByTitle(articleUrl);
   if(articleToEdit){
     articlesDB.deleteArticle(articleUrl);
     articlesDB.data.success.delete = true;
@@ -56,10 +56,11 @@ console.log("edit");
 })
 
     .get(function (req, res) {
-  let requestArticle = req.params.title;
-  let articleResult = articlesDB.findArticleById(requestArticle);
+  let requestArticle = encodeURI(req.params.title);
+  let articleResult = articlesDB.findArticleByTitle(requestArticle);
+  console.log("objects",articleResult.urlTitle);
   if(articleResult){
-    res.render(`./articles/${articleResult}`, articleResult);
+    res.render(`./articles/articles`, articleResult);
   }else{
     res.redirect(303, '/articles/error');
   }
@@ -74,7 +75,7 @@ console.log("edit");
 router.get('/:id/edit', (req, res) => {
   console.log("edit2");
   let requestId = parseFloat(req.params.id);
-  let productRequested = articlesDB.findArticleById(requestId);
+  let productRequested = articlesDB.findArticleByTitle(requestId);
   if(productRequested){
     let i = productList.indexOf(productRequested);
     res.render('./articles/edit', articlesDB.data.articles[i]);
