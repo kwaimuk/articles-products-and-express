@@ -8,7 +8,7 @@
   <h2>Price: ${{price}}</h2>
   <h2>Inventory: {{inventory}}</h2>
 </div>
-<form action="/products/{{id}}?_method=PUT" method="POST" >
+<form action="/products/{{id}}/edit" method="GET" >
    <input type="submit" value="Edit Product">
 </form>
 <form action="/products/{{id}}?_method=DELETE" method="POST" >

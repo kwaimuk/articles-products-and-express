@@ -29,14 +29,14 @@ router.route('/new')
 
 router.route('/:title')
   .put(function (req, res) {
-  let requestId = parseFloat(req.params.id);
-  let productToEdit = articlesDB.findArticleById(requestId);
+  let requestArticle = req.params.title;
+  let articleToEdit = articlesDB.findArticleById(requestId);
 console.log("edit");
-  if(productToEdit !== undefined){
-    articlesDB.editProduct(productToEdit, req);
+  if(articleToEdit !== undefined){
+    articlesDB.editProduct(articleToEdit, req);
     //I could render the edit page, but url will be ?_method=PUT-
-    //    res.render('./articles/edit', productToEdit);
-    res.redirect(303, `/articles/${productToEdit.title}/edit`);
+    //    res.render('./articles/edit', articleToEdit);
+    res.redirect(303, `/articles/${articleToEdit.title}/edit`);
   }else {
     res.redirect(303, '/articles/new');
   }
@@ -57,10 +57,9 @@ console.log("edit");
 
     .get(function (req, res) {
   let requestArticle = req.params.title;
-  let productRequested = articlesDB.findArticleById(requestArticle);
-  if(productRequested){
-    let i = productList.indexOf(productRequested);
-    res.render('./articles/product', articlesDB.data.articles[i]);
+  let articleResult = articlesDB.findArticleById(requestArticle);
+  if(articleResult){
+    res.render(`./articles/${articleResult}`, articleResult);
   }else{
     res.redirect(303, '/articles/error');
   }
@@ -72,17 +71,17 @@ console.log("edit");
 
 
 
-// router.get('/:id/edit', (req, res) => {
-//   console.log("edit2");
-//   let requestId = parseFloat(req.params.id);
-//   let productRequested = articlesDB.findArticleById(requestId);
-//   if(productRequested){
-//     let i = productList.indexOf(productRequested);
-//     res.render('./articles/edit', articlesDB.data.articles[i]);
-//   }else{
-//     res.redirect(303, '/articles/error');
-//   }
-// });
+router.get('/:id/edit', (req, res) => {
+  console.log("edit2");
+  let requestId = parseFloat(req.params.id);
+  let productRequested = articlesDB.findArticleById(requestId);
+  if(productRequested){
+    let i = productList.indexOf(productRequested);
+    res.render('./articles/edit', articlesDB.data.articles[i]);
+  }else{
+    res.redirect(303, '/articles/error');
+  }
+});
 
 
 module.exports = router;

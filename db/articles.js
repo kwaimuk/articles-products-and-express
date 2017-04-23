@@ -5,13 +5,15 @@ let articleUrl;
 
 function addNewArticle(article) {
   articleUrl = encodeURI(article.title);
-  article.urlTitle=articleUrl;
+  article.urlTitle = articleUrl;
   articleList.push(article);
 }
 
-function findArticleById(articleURL){
+function findArticleByTitle(articleURL){
   for(let i = 0; i < articleList.length; i++){
-    if(articleList[i].id === articleURL){
+    if(articleList[i].urlTitle === articleURL){
+
+  console.log("found");
        return articleList[i];
     }
   }
@@ -19,7 +21,7 @@ function findArticleById(articleURL){
 
 function deleteArticle(articleURL){
   for(let i = 0; i < articleList.length; i++){
-    if(articleList[i].id === articleURL){
+    if(articleList[i].urlTitle === articleURL){
       console.log("delep");
       articleList.splice(i, 1);
     }
@@ -51,7 +53,7 @@ module.exports = {
   articleList,
   articleUrl,
   addNewArticle,
-  findArticleById,
+  findArticleByTitle,
   deleteArticle,
   editProduct,
 };

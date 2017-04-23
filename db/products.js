@@ -12,6 +12,7 @@ function addNewProduct(product) {
 function findProductById(requestId){
   for(let i = 0; i < productList.length; i++){
     if(productList[i].id === requestId){
+      console.log("productList[i]",productList[i]);
        return productList[i];
     }
   }
