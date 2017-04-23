@@ -1,11 +1,10 @@
-<div><FORM METHOD="LINK" ACTION=../products/new>
+<div><FORM METHOD="LINK" ACTION=../articles/new>
 <INPUT TYPE="submit" VALUE="New Product">
 </FORM></div>
 {{#if id}}
-<div class="product">
-  <h1>Name: {{name}}</h1>
-  <h2>ID : {{id}}</h2>
-  <h2>Price: ${{price}}</h2>
+<div class="articles">
+  <h1>Title: {{title}}</h1>
+  <h2>Body: {{body}}</h2>
   <h2>Inventory: {{inventory}}</h2>
 </div>
 <form action="/products/{{id}}?_method=PUT" method="POST" >
@@ -15,5 +14,5 @@
    <input type="submit" value="Remove Product">
 </form>
 {{else}}
-  <h1>Product Not Found</h1>
+  <h1>Article Not Found</h1>
 {{/if}}

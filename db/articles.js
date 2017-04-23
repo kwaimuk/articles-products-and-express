@@ -1,27 +1,27 @@
 /* jshint esversion: 6 */
-let ArticleList = [];
+let articleList = [];
 
 let articleUrl;
 
 function addNewArticle(article) {
   articleUrl = encodeURI(article.title);
   article.urlTitle=articleUrl;
-  ArticleList.push(article);
+  articleList.push(article);
 }
 
-function findProductById(requestId){
-  for(let i = 0; i < ArticleList.length; i++){
-    if(ArticleList[i].id === requestId){
-       return ArticleList[i];
+function findArticleById(articleURL){
+  for(let i = 0; i < articleList.length; i++){
+    if(articleList[i].id === articleURL){
+       return articleList[i];
     }
   }
 }
 
-function deleteProduct(requestId){
-  for(let i = 0; i < ArticleList.length; i++){
-    if(ArticleList[i].id === requestId){
+function deleteArticle(articleURL){
+  for(let i = 0; i < articleList.length; i++){
+    if(articleList[i].id === articleURL){
       console.log("delep");
-      ArticleList.splice(i, 1);
+      articleList.splice(i, 1);
     }
   }
 }
@@ -42,16 +42,16 @@ function editProduct(productToEdit, req) {
 
 module.exports = {
   data: {
-    "products": ArticleList,
+    "products": articleList,
     success: {
       "delete": false,
       "post": true
     }
   },
-  ArticleList,
+  articleList,
   articleUrl,
   addNewArticle,
-  findProductById,
-  deleteProduct,
+  findArticleById,
+  deleteArticle,
   editProduct,
 };
