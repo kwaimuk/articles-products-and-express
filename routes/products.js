@@ -60,6 +60,7 @@ console.log("edit");
 
     .get(function (req, res) {
   let requestId = parseInt(req.params.id);
+  console.log("ok");
   let productRequested = productsDB.findProductById(requestId);
   if(productRequested){
     let i = productList.indexOf(productRequested);
