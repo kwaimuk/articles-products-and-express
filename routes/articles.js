@@ -1,73 +1,71 @@
 /* jshint esversion: 6 */
 const express = require('express');
-const productsDB = require('../db/products');
+const articlesDB = require('../db/articles');
 let router = express.Router();
-let productList = productsDB.productList;
+let productList = articlesDB.productList;
 
 router.route('/')
   .post(function (req, res) {
-    let productInfo = req.body;
-    productInfo.price = parseFloat(productInfo.price);
-    productInfo.inventory = parseFloat(productInfo.inventory);
+    let articleInfo = req.body;
 
-    if(productInfo.name && productInfo.price && productInfo.inventory){
-      productsDB.addNewProduct(productInfo);
-      productsDB.data.success.post = true;
-      res.redirect('/products');
+    if(articleInfo.title && articleInfo.body && articleInfo.author){
+      articlesDB.addNewArticle(articleInfo);
+      articlesDB.data.success.post = true;
+      res.redirect('/articles');
     }else{
-      res.redirect('/products/new');
-      productsDB.data.success.post = false;
+      res.redirect('/articles/new');
+      articlesDB.data.success.post = false;
     }
   })
 
   .get(function (req, res) {
-  res.render('./products/index', productsDB.data);
-      // productsDB.data.success.delete = false;
+  res.render('./articles/index', articlesDB.data);
+      // articlesDB.data.success.delete = false;
   });
 
 router.route('/new')
   .get(function (req, res) {
-  res.render('./products/new', productsDB.data);
+  res.render('./articles/new', articlesDB.data);
 });
 
-router.route('/:id')
+router.route('/:title')
   .put(function (req, res) {
   let requestId = parseFloat(req.params.id);
-  let productToEdit = productsDB.findProductById(requestId);
+  let productToEdit = articlesDB.findProductById(requestId);
 console.log("edit");
   if(productToEdit !== undefined){
-    productsDB.editProduct(productToEdit, req);
+    articlesDB.editProduct(productToEdit, req);
     //I could render the edit page, but url will be ?_method=PUT-
-    //    res.render('./products/edit', productToEdit);
-    res.redirect(303, `/products/${productToEdit.id}/edit`);
+    //    res.render('./articles/edit', productToEdit);
+    res.redirect(303, `/articles/${productToEdit.title}/edit`);
   }else {
-    res.redirect(303, '/products/new');
+    res.redirect(303, '/articles/new');
   }
 })
 
-  .delete(function (req, res) {
-    console.log("has attempted to delete");
-  let requestId = parseFloat(req.params.id);
-  let productToEdit = productsDB.findProductById(requestId);
-  if(productToEdit){
-    productsDB.deleteProduct(requestId);
-    productsDB.data.success.delete = true;
-    res.redirect(303,'/products');
-  }else{
-    res.redirect(303,'/products/error');
-  }
-})
+//   .delete(function (req, res) {
+//     console.log("has attempted to delete");
+//   let requestId = parseFloat(req.params.id);
+//   let productToEdit = articlesDB.findProductById(requestId);
+//   if(productToEdit){
+//     articlesDB.deleteProduct(requestId);
+//     articlesDB.data.success.delete = true;
+//     res.redirect(303,'/articles');
+//   }else{
+//     res.redirect(303,'/articles/error');
+//   }
+// })
 
     .get(function (req, res) {
-  let requestId = parseInt(req.params.id);
-  let productRequested = productsDB.findProductById(requestId);
+  let requestArticle = req.params.title;
+  let productRequested = articlesDB.findProductById(requestArticle);
   if(productRequested){
     let i = productList.indexOf(productRequested);
-    res.render('./products/product', productsDB.data.products[i]);
+    res.render('./articles/product', articlesDB.data.articles[i]);
   }else{
-    res.redirect(303, '/products/error');
+    res.redirect(303, '/articles/error');
   }
-      // productsDB.data.success.delete = false;
+      // articlesDB.data.success.delete = false;
   });
 
 
@@ -75,17 +73,17 @@ console.log("edit");
 
 
 
-router.get('/:id/edit', (req, res) => {
-  console.log("edit2");
-  let requestId = parseFloat(req.params.id);
-  let productRequested = productsDB.findProductById(requestId);
-  if(productRequested){
-    let i = productList.indexOf(productRequested);
-    res.render('./products/edit', productsDB.data.products[i]);
-  }else{
-    res.redirect(303, '/products/error');
-  }
-});
+// router.get('/:id/edit', (req, res) => {
+//   console.log("edit2");
+//   let requestId = parseFloat(req.params.id);
+//   let productRequested = articlesDB.findProductById(requestId);
+//   if(productRequested){
+//     let i = productList.indexOf(productRequested);
+//     res.render('./articles/edit', articlesDB.data.articles[i]);
+//   }else{
+//     res.redirect(303, '/articles/error');
+//   }
+// });
 
 
 module.exports = router;
