@@ -6,9 +6,13 @@
     <h2>Price: ${{price}}</h2>
     <h2>Inventory: {{inventory}}</h2>
   </div>
+  <form action="/products/{{id}}/edit" method="GET" >
+   <input type="submit" value="Edit Product">
+</form>
 <form action="/products/{{id}}?_method=DELETE" method="POST" >
    <input type="submit" value="Remove Product">
 </form>
+
 {{/each}}
 <form action="/products/new" method="GET" >
    <input type="submit" value="New product">

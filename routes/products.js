@@ -83,8 +83,7 @@ router.get('/:id/edit', (req, res) => {
   let requestId = parseFloat(req.params.id);
   let productRequested = productsDB.findProductById(requestId);
   if(productRequested){
-    let i = productList.indexOf(productRequested);
-    res.render('./products/edit', productsDB.data.products[i]);
+    res.render('./products/edit', productRequested);
   }else{
     res.redirect(303, '/products/error');
   }

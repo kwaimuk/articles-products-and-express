@@ -5,7 +5,13 @@ let router = express.Router();
 let productList = articlesDB.productList;
 
 router.route('/')
+  .get(function (req, res) {
+  res.render('./articles/index', articlesDB.data);
+  })
+
   .post(function (req, res) {
+    //this will reset delete status
+      articlesDB.data.success.delete = false;
     let articleInfo = req.body;
     if(articleInfo.title && articleInfo.body && articleInfo.author){
       articlesDB.addNewArticle(articleInfo);
@@ -15,30 +21,27 @@ router.route('/')
       res.redirect('/articles/new');
       articlesDB.data.success.post = false;
     }
-  })
-
-  .get(function (req, res) {
-  res.render('./articles/index', articlesDB.data);
-      // articlesDB.data.success.delete = false;
   });
+
 
 router.route('/new')
   .get(function (req, res) {
+    //this will reset delete status
+      articlesDB.data.success.delete = false;
   res.render('./articles/new', articlesDB.data);
+
 });
 
 router.route('/:title')
   .put(function (req, res) {
-  let requestArticle = req.params.title;
+  let requestArticle = encodeURI(req.params.title);
   let articleToEdit = articlesDB.findArticleByTitle(requestArticle);
-console.log("edit");
+console.log("articleToEdit",articleToEdit);
   if(articleToEdit !== undefined){
-    articlesDB.editProduct(articleToEdit, req);
-    //I could render the edit page, but url will be ?_method=PUT-
-    //    res.render('./articles/edit', articleToEdit);
-    res.redirect(303, `/articles/${articleToEdit.title}/`);
+    articlesDB.editArticle(articleToEdit, req);
+    res.redirect(303, `/articles/${articleToEdit.urlTitle}/`);
   }else {
-    res.redirect(303, '/articles/${articleToEdit.title}/new');
+    res.redirect(303, '/articles/${articleToEdit.urlTitle}/edit');
   }
 })
 
@@ -58,7 +61,6 @@ console.log("edit");
     .get(function (req, res) {
   let requestArticle = encodeURI(req.params.title);
   let articleResult = articlesDB.findArticleByTitle(requestArticle);
-  console.log("objects",articleResult.urlTitle);
   if(articleResult){
     res.render(`./articles/articles`, articleResult);
   }else{
@@ -70,12 +72,11 @@ console.log("edit");
 
 
 
-
-
-router.get('/:id/edit', (req, res) => {
-  console.log("edit2");
+router.get('/:title/edit', (req, res) => {
   let requestArticle = encodeURI(req.params.title);
+  console.log("requestArticle",requestArticle);
   let articleRequested = articlesDB.findArticleByTitle(requestArticle);
+    console.log("articleRequested",articleRequested);
   if(articleRequested){
     res.render('./articles/edit',articleRequested);
   }else{

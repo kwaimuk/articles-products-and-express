@@ -9,7 +9,6 @@
   <label for="inventory">Inventory</label>
   <input type="text" id="inventory" name="inventory" value={{inventory}}>
 
-  <input type="hidden" name="_method" value="PUT">
   <input id= "editProduct" type="submit" value="Save Changes">
 </form>
   <form action="/products/{{id}}?_method=DELETE" method="POST" >

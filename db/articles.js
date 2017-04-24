@@ -28,17 +28,16 @@ function deleteArticle(articleURL){
   }
 }
 
-function editProduct(productToEdit, req) {
-  if(req.body.name){
-      productToEdit.name = req.body.name;
+function  editArticle(articleToEdit, req) {
+  // console.log("hi");
+    if(req.body.title){
+      articleToEdit.title = req.body.title;
     }
-    // check if has price
-    if(req.body.price){
-      productToEdit.price = req.body.price;
+    if(req.body.body ){
+      articleToEdit.body = req.body.body;
     }
-    // check if has inventory
-    if(req.body.inventory){
-      productToEdit.inventory = req.body.inventory;
+    if(req.body.author){
+      articleToEdit.author = req.body.author;
     }
 }
 
@@ -55,5 +54,5 @@ module.exports = {
   addNewArticle,
   findArticleByTitle,
   deleteArticle,
-  editProduct,
+  editArticle,
 };
