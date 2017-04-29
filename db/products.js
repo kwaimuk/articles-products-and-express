@@ -1,4 +1,5 @@
 /* jshint esversion: 6 */
+const db = require('./connections');
 let productList = [];
 
 let newProductId = 1;
@@ -20,7 +21,6 @@ function findProductById(requestId){
 function deleteProduct(requestId){
   for(let i = 0; i < productList.length; i++){
     if(productList[i].id === requestId){
-      console.log("delep");
       productList.splice(i, 1);
     }
   }
@@ -40,9 +40,14 @@ function editProduct(productToEdit, req) {
     }
 }
 
+function displayAllProducts(){
+return db.any('SELECT * FROM products');
+
+}
+
 module.exports = {
   data: {
-    "products": productList,
+    "product4s": productList,
     success: {
       "delete": false,
       "post": true
@@ -54,4 +59,6 @@ module.exports = {
   findProductById,
   deleteProduct,
   editProduct,
+  displayAllProducts,
 };
+

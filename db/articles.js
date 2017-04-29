@@ -1,4 +1,5 @@
 /* jshint esversion: 6 */
+const db = require('../db/connections');
 let articleList = [];
 
 let articleUrl;

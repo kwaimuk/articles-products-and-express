@@ -2,7 +2,7 @@
 const express = require('express');
 const productsDB = require('../db/products');
 let router = express.Router();
-let productList = productsDB.productList;
+
 
 router.route('/')
   .post(function (req, res) {
@@ -21,9 +21,17 @@ router.route('/')
   })
 
   .get(function (req, res) {
-  res.render('./products/index', productsDB.data);
+    productsDB.displayAllProducts()
+      .then (products => {
+      res.render('./products/index', products.products);
+      })
+      .catch (error => {
+      console.log(error);
+      });
+
+   });
+
       // productsDB.data.success.delete = false;
-  });
 
 router.route('/new')
   .get(function (req, res) {

@@ -4,6 +4,7 @@ const articlesDB = require('../db/articles');
 let router = express.Router();
 let productList = articlesDB.productList;
 
+
 router.route('/')
   .get(function (req, res) {
   res.render('./articles/index', articlesDB.data);
