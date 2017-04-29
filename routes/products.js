@@ -23,7 +23,8 @@ router.route('/')
   .get(function (req, res) {
     productsDB.displayAllProducts()
       .then (products => {
-      res.render('./products/index', products.products);
+      res.render('./products/index',
+      {products:products});
       })
       .catch (error => {
       console.log(error);
