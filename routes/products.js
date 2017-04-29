@@ -19,7 +19,6 @@ router.route('/')
 
     productsDB.addNewProduct(productInfo)
       .then(products => {
-        console.log("then");
       res.redirect('/products');
       })
      .catch (error => {
@@ -48,17 +47,16 @@ router.route('/new')
 
 router.route('/:id')
   .put(function (req, res) {
-  let requestID = parseFloat(req.params.id);
-  let productToEdit = productsDB.findProductById(requestID);
-console.log("edit");
-  if(productToEdit !== undefined){
-    productsDB.editProduct(productToEdit, req);
-    //I could render the edit page, but url will be ?_method=PUT-
-    //    res.render('./products/edit', productToEdit);
-    res.redirect(303, `/products/${productToEdit.id}/`);
-  }else {
-    res.redirect(303, '`/products/${productToEdit.id}/edit`');
-  }
+    console.log('req2',req);
+    let requestID = req.params.id;
+  productsDB.editProduct(req)
+  .then(products => {
+    res.redirect(303, `/products/${requestID}/`);
+  })
+  .catch (error => {
+    res.redirect(303, `/products/${requestID}/edit`);
+  });
+
   })
 
   .delete(function (req, res) {
@@ -84,20 +82,9 @@ console.log("edit");
         res.render('./products/product', products);
       })
       .catch (error => {
-      console.log(error);
+      res.redirect(303, '/products/error');
       });
   });
-  // let requestID = parseInt(req.params.id);
-  // console.log("ok");
-  // let productRequested = productsDB.findProductById(requestID);
-  // console.log("productRequested",productRequested);
-  // if(productRequested){
-  //   // let i = productList.indexOf(productRequested);
-  //   // console.log("productsDB.data.products[i]", productsDB.data.products[i]);
-  //   res.render('./products/product', productRequested);
-  // }else{
-  //   res.redirect(303, '/products/error');
-  // }
 
 
 
@@ -108,7 +95,7 @@ router.get('/:id/edit', (req, res) => {
   let requestID = req.params.id;
   productsDB.findProductById(requestID)
       .then (products => {
-        console.log(products);
+        console.log("hihi",products);
       res.render('./products/edit', products);
       })
       .catch (error => {
