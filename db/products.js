@@ -5,25 +5,32 @@ let productList = [];
 let newProductId = 1;
 
 function addNewProduct(product) {
-  product.id = newProductId;
-  newProductId++;
-  productList.push(product);
+
+let name =product.name;
+let price =product.price;
+let inventory =product.inventory;
+console.log(name, price, inventory);
+  return db.any('INSERT INTO products(name, price, inventory) VALUES ($1, $2, $3)',
+                [name, price, inventory]);
+
 }
 
-function findProductById(requestId){
-  for(let i = 0; i < productList.length; i++){
-    if(productList[i].id === requestId){
-       return productList[i];
-    }
-  }
+// function findProductById(requestId){
+//   for(let i = 0; i < productList.length; i++){
+//     if(productList[i].id === requestId){
+//        return productList[i];
+//     }
+//   }
+// }
+
+function findProductById(requestID){
+  console.log("requestID", requestID);
+  return db.one('SELECT * FROM products WHERE id = $1',[requestID]);
 }
 
-function deleteProduct(requestId){
-  for(let i = 0; i < productList.length; i++){
-    if(productList[i].id === requestId){
-      productList.splice(i, 1);
-    }
-  }
+function deleteProduct(requestID){
+ console.log("requestID", requestID);
+  return db.result('DELETE FROM products WHERE id = $1',[requestID]);
 }
 
 function editProduct(productToEdit, req) {
@@ -47,7 +54,7 @@ return db.any('SELECT * FROM products');
 
 module.exports = {
   data: {
-    "product4s": productList,
+    "products": productList,
     success: {
       "delete": false,
       "post": true

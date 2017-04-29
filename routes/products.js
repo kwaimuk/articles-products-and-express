@@ -7,17 +7,24 @@ let router = express.Router();
 router.route('/')
   .post(function (req, res) {
     let productInfo = req.body;
-    productInfo.price = parseFloat(productInfo.price);
-    productInfo.inventory = parseFloat(productInfo.inventory);
+    // if(productInfo.name && productInfo.price && productInfo.inventory){
+    //   productsDB.addNewProduct(productInfo);
+    //   productsDB.data.success.post = true;
+    //   res.redirect('/products');
+    // }else{
+    //   res.redirect('/products/new');
+    //   productsDB.data.success.post = false;
+    // }
 
-    if(productInfo.name && productInfo.price && productInfo.inventory){
-      productsDB.addNewProduct(productInfo);
-      productsDB.data.success.post = true;
+
+    productsDB.addNewProduct(productInfo)
+      .then(products => {
+        console.log("then");
       res.redirect('/products');
-    }else{
-      res.redirect('/products/new');
-      productsDB.data.success.post = false;
-    }
+      })
+     .catch (error => {
+      console.log(error);
+      });
   })
 
   .get(function (req, res) {
@@ -41,8 +48,8 @@ router.route('/new')
 
 router.route('/:id')
   .put(function (req, res) {
-  let requestId = parseFloat(req.params.id);
-  let productToEdit = productsDB.findProductById(requestId);
+  let requestID = parseFloat(req.params.id);
+  let productToEdit = productsDB.findProductById(requestID);
 console.log("edit");
   if(productToEdit !== undefined){
     productsDB.editProduct(productToEdit, req);
@@ -52,36 +59,45 @@ console.log("edit");
   }else {
     res.redirect(303, '`/products/${productToEdit.id}/edit`');
   }
-})
+  })
 
   .delete(function (req, res) {
     console.log("has attempted to delete");
-  let requestId = parseFloat(req.params.id);
-  let productToEdit = productsDB.findProductById(requestId);
-  if(productToEdit){
-    productsDB.deleteProduct(requestId);
-    productsDB.data.success.delete = true;
-    res.redirect(303,'/products');
-  }else{
-    res.redirect(303,'/products/error');
-  }
-})
+    let requestID = req.params.id;
+    productsDB.deleteProduct(requestID)
+      .then (products => {
+        console.log("products");
+        res.redirect(303, `/products`);
+      })
+      .catch (error => {
+      console.log(error);
+      });
+  })
+
+
 
     .get(function (req, res) {
-  let requestId = parseInt(req.params.id);
-  console.log("ok");
-  let productRequested = productsDB.findProductById(requestId);
-  console.log("productRequested",productRequested);
-  if(productRequested){
-    // let i = productList.indexOf(productRequested);
-    // console.log("productsDB.data.products[i]", productsDB.data.products[i]);
-    res.render('./products/product', productRequested);
-  }else{
-    res.redirect(303, '/products/error');
-  }
-      // productsDB.data.success.delete = false;
+  let requestID = req.params.id;
+  productsDB.findProductById(requestID)
+      .then (products => {
+        console.log(products);
+        res.render('./products/product', products);
+      })
+      .catch (error => {
+      console.log(error);
+      });
   });
-
+  // let requestID = parseInt(req.params.id);
+  // console.log("ok");
+  // let productRequested = productsDB.findProductById(requestID);
+  // console.log("productRequested",productRequested);
+  // if(productRequested){
+  //   // let i = productList.indexOf(productRequested);
+  //   // console.log("productsDB.data.products[i]", productsDB.data.products[i]);
+  //   res.render('./products/product', productRequested);
+  // }else{
+  //   res.redirect(303, '/products/error');
+  // }
 
 
 
@@ -89,13 +105,15 @@ console.log("edit");
 
 router.get('/:id/edit', (req, res) => {
   console.log("edit2");
-  let requestId = parseFloat(req.params.id);
-  let productRequested = productsDB.findProductById(requestId);
-  if(productRequested){
-    res.render('./products/edit', productRequested);
-  }else{
-    res.redirect(303, '/products/error');
-  }
+  let requestID = req.params.id;
+  productsDB.findProductById(requestID)
+      .then (products => {
+        console.log(products);
+      res.render('./products/edit', products);
+      })
+      .catch (error => {
+      console.log(error);
+      });
 });
 
 
